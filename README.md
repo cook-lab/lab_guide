@@ -77,6 +77,12 @@ cp ~/.cook-lab-guide/.claude/skills/* ~/.claude/skills/
 - [scrna-integration-pipeline](https://github.com/cook-lab/scrna-integration-pipeline) — Multi-sample integration for HPC
 - [tumour_segmentation](https://github.com/cook-lab/tumour_segmentation) — Tumour region segmentation for spatial data
 
+## Changelog
+
+| Date | Change |
+|------|--------|
+| 2025-02-05 | Initial release: analysis standards, visualization guide, skills |
+
 ## About the Lab
 
 The Cook Lab combines single-cell and spatial genomics with patient-derived models to decode gynecologic disease. Based at the Ottawa Hospital Research Institute and University of Ottawa.
