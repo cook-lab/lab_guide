@@ -22,26 +22,45 @@ Guidelines for reproducible, well-documented computational analysis—optimized 
 
 ```
 project/
-├── PROJECT_SPEC.md          # Research questions, goals, approach
-├── ANALYSIS_PLAN.md         # Detailed analysis plan (the anchor)
-├── ANALYSIS_LOG.md          # Living log of completed work
-├── scripts/
-│   ├── 00_setup.R           # Environment, packages, paths
-│   ├── 01_load_data.R       # Data import and initial QC
-│   ├── 02_preprocessing.R   # Filtering, normalization, etc.
-│   ├── 03_analysis.R        # Primary analysis
-│   └── ...
+├── README.md                 # Short what/why/how-to-reproduce
+├── PROJECT_SPEC.md           # Research questions, goals, approach
+├── ANALYSIS_PLAN.md          # Detailed analysis plan (the anchor)
+├── ANALYSIS_LOG.md           # Living log of completed work
 ├── data/
-│   ├── raw/                 # Immutable raw data
-│   └── processed/           # Processed data objects
-├── results/
-│   ├── figures/             # Generated figures
-│   └── tables/              # Generated tables
-├── reports/
-│   ├── 01_qc_report.md      # Phase reports (markdown source)
-│   └── 01_qc_report.pdf     # Rendered PDF reports
-└── sandbox/                 # Exploratory/scratch work (not part of main pipeline)
+│   ├── imaging/              # Organized by assay type
+│   ├── spatial/
+│   ├── single_cell/
+│   └── external/             # Downloaded/public datasets (versioned, logged)
+├── metadata/
+│   └── samples.csv           # Single source of truth for sample info
+├── scripts/
+│   ├── 00_setup.R            # Environment, packages, paths
+│   ├── 01_load_data.R        # Data import and initial QC
+│   ├── 02_preprocessing.R    # Filtering, normalization, etc.
+│   └── sandbox/              # Exploratory work (not part of main pipeline)
+├── shellscripts/             # HPC job scripts (Slurm/PBS)
+├── output/                   # Reproducible intermediates (gitignored)
+├── figs/                     # Exploratory figure exports
+├── reports/                  # Phase reports (markdown + PDF)
+└── docs/
+    └── manuscript/
+        └── figures/          # Final paper figures + generation scripts
 ```
+
+### Directory Descriptions
+
+| Directory | Purpose |
+|-----------|---------|
+| `data/` | All project data, organized by assay type (imaging, spatial, single_cell). Subdirectories are flexible per project. `external/` holds downloaded/public datasets separate from lab-generated data. |
+| `metadata/` | Single source of truth for sample information. `samples.csv` maps sample IDs to subjects, conditions, batches, tissues, library prep, file paths, and covariates. |
+| `scripts/` | Numbered analysis scripts (00_, 01_, etc.) for reproducible pipeline. `sandbox/` nested inside for exploratory work. |
+| `shellscripts/` | HPC job scripts (Slurm/PBS submission files). Keep parameterized so they regenerate `output/` from `data/`. |
+| `output/` | Fully reproducible outputs—tables, matrices, processed objects, QC summaries. Nothing hand-edited; safe to delete and regenerate from code. |
+| `figs/` | Working area for exploratory figures—quick plots, diagnostics, drafts. Intentionally fluid with many iterations. |
+| `reports/` | Phase reports documenting analysis results with embedded statistics and figures. |
+| `docs/manuscript/figures/` | Final paper figures with generation scripts. Versionable and reproducible, separate from exploratory graphics. |
+
+**Principle:** Sub-directories within each top-level folder can be flexible and project-specific, but these top-level directories keep things in the right area.
 
 ---
 
@@ -171,7 +190,7 @@ source("scripts/00_setup.R")
 # [Main code organized in sections] -------------------------------------------
 
 # Save outputs ----------------------------------------------------------------
-saveRDS(object, "data/processed/object_name.rds")
+saveRDS(object, "output/object_name.rds")
 
 # Session info ----------------------------------------------------------------
 sessionInfo()
@@ -186,12 +205,12 @@ sessionInfo()
 
 ## Sandbox Workflow
 
-The sandbox is for dynamic exploration—testing parameters, trying approaches, iterating on visualizations. Once an approach is finalized, stage it as a numbered script.
+The sandbox (`scripts/sandbox/`) is for dynamic exploration—testing parameters, trying approaches, iterating on visualizations. Once an approach is finalized, stage it as a numbered script in the parent `scripts/` directory.
 
 ### Sandbox vs Staged Scripts
 
-| Aspect | Sandbox (`sandbox/`) | Staged (`scripts/`) |
-|--------|---------------------|---------------------|
+| Aspect | Sandbox (`scripts/sandbox/`) | Staged (`scripts/`) |
+|--------|------------------------------|---------------------|
 | Purpose | Exploration, iteration | Reproducible pipeline |
 | Naming | Descriptive (e.g., `explore_clustering.R`) | Numbered (e.g., `03_clustering.R`) |
 | State | Work in progress | Finalized |
@@ -202,7 +221,7 @@ The sandbox is for dynamic exploration—testing parameters, trying approaches, 
 
 1. **Create exploration scripts** with descriptive names:
    ```
-   sandbox/
+   scripts/sandbox/
    ├── explore_clustering_resolution.R
    ├── compare_normalization_methods.R
    └── test_marker_genes.R
@@ -225,10 +244,10 @@ The sandbox is for dynamic exploration—testing parameters, trying approaches, 
    - Proceeding with resolution 0.5: balances granularity vs interpretability
    ```
 
-4. **Save intermediate outputs** to sandbox-specific locations:
+4. **Save intermediate outputs** to the exploratory figures directory:
    ```r
-   # In sandbox scripts, save to sandbox/outputs/
-   ggsave("sandbox/outputs/clustering_comparison.png", p)
+   # In sandbox scripts, save to figs/ (exploratory area)
+   ggsave("figs/clustering_comparison.png", p)
    ```
 
 ### Staging a Script
@@ -244,7 +263,7 @@ When exploration is complete and you've settled on an approach:
    - Remove dead ends and commented alternatives
    - Add proper header with documentation
    - Ensure it sources `00_setup.R`
-   - Save outputs to `data/processed/` and `results/`
+   - Save outputs to `output/` and final figures to `docs/manuscript/figures/`
 
 3. **Update ANALYSIS_LOG.md** to mark the staging:
    ```markdown
@@ -252,15 +271,15 @@ When exploration is complete and you've settled on an approach:
    **Type:** Script
    **Script:** `scripts/03_clustering.R`
    **Status:** Staged
-   **Staged from:** `sandbox/explore_clustering_resolution.R`
+   **Staged from:** `scripts/sandbox/explore_clustering_resolution.R`
 
    **What was done:**
    - Finalized clustering at resolution 0.5
    - 12 clusters identified
 
    **Key outputs:**
-   - `data/processed/seurat_clustered.rds`
-   - `results/figures/umap_clusters.png`
+   - `output/seurat_clustered.rds`
+   - `docs/manuscript/figures/umap_clusters.png`
    ```
 
 4. **Archive or delete sandbox script** (optional):
@@ -336,7 +355,7 @@ Reports document the results of each analysis phase with embedded evidence.
    - Report cluster sizes, expression values, statistical tests
 
 3. **Embed figures inline**
-   - Use relative paths: `![](../results/figures/fig.png)`
+   - Use relative paths: `![](../figs/fig.png)` for exploratory, `![](../docs/manuscript/figures/fig.png)` for final
    - Include informative captions with key numbers
 
 4. **Be conservative with interpretation**

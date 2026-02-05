@@ -40,7 +40,7 @@ Log at the granularity of each discrete step. Use this format:
 ### [YYYY-MM-DD HH:MM] - [Script or task name]
 **Type:** [Script | Decision | Failed attempt | Exploration]
 **Phase:** [Phase name]
-**Script:** [e.g., `02_preprocessing.R` or `sandbox/explore_clustering.R`]
+**Script:** [e.g., `scripts/02_preprocessing.R` or `scripts/sandbox/explore_clustering.R`]
 **Status:** [Complete | Staged | Abandoned | In progress]
 
 **What was done:**
@@ -60,7 +60,7 @@ Log at the granularity of each discrete step. Use this format:
 ### Log Entry Types
 
 - **Script**: Completed work on a numbered script in `scripts/`
-- **Exploration**: Work in `sandbox/` testing approaches
+- **Exploration**: Work in `scripts/sandbox/` testing approaches
 - **Decision**: Key parameter or approach decision (even without code changes)
 - **Failed attempt**: Something that didn't work (important to track!)
 
@@ -81,7 +81,7 @@ Use the sandbox for dynamic exploration. Stage to `scripts/` when finalized.
 
 1. **Explore in sandbox:**
    ```
-   sandbox/explore_clustering_resolution.R
+   scripts/sandbox/explore_clustering_resolution.R
    ```
 
 2. **Log exploration** (Type: Exploration)
@@ -89,9 +89,9 @@ Use the sandbox for dynamic exploration. Stage to `scripts/` when finalized.
 3. **When approach is settled, stage:**
    - Create `scripts/03_clustering.R`
    - Clean up code, add proper header
-   - Save outputs to `data/processed/` and `results/`
+   - Save outputs to `output/` and final figures to `docs/manuscript/figures/`
 
-4. **Log staging** (Type: Script, note "Staged from: sandbox/xxx.R")
+4. **Log staging** (Type: Script, note "Staged from: scripts/sandbox/xxx.R")
 
 ### Key Rule
 
@@ -203,14 +203,16 @@ make
 
 4. **Create directory structure:**
    ```
+   data/                    # Organized by assay (imaging/, spatial/, single_cell/)
+   data/external/           # Downloaded/public datasets
+   metadata/                # samples.csv and related
    scripts/
-   data/raw/
-   data/processed/
-   results/figures/
-   results/tables/
+   scripts/sandbox/         # Exploratory work
+   shellscripts/            # HPC job scripts
+   output/                  # Reproducible intermediates
+   figs/                    # Exploratory figures
    reports/
-   sandbox/
-   sandbox/outputs/
+   docs/manuscript/figures/ # Final paper figures
    ```
 
 5. **Create `scripts/00_setup.R`**
@@ -249,7 +251,7 @@ Update ANALYSIS_LOG.md with:
 ### 2025-02-05 15:30 - Failed: Integration with Harmony
 **Type:** Failed attempt
 **Phase:** Integration
-**Script:** `sandbox/test_harmony.R`
+**Script:** `scripts/sandbox/test_harmony.R`
 **Status:** Abandoned
 
 **What was done:**
@@ -322,23 +324,33 @@ Before stopping:
 ### Directory Structure
 ```
 project/
+├── README.md
 ├── PROJECT_SPEC.md
 ├── ANALYSIS_PLAN.md
 ├── ANALYSIS_LOG.md
-├── scripts/          # Numbered, finalized scripts
-├── sandbox/          # Exploration scripts
-│   └── outputs/      # Temporary sandbox outputs
-├── data/raw/         # Immutable input data
-├── data/processed/   # Generated data objects
-├── results/figures/  # Final figures
-├── results/tables/   # Final tables
-└── reports/          # Markdown + PDF reports
+├── data/
+│   ├── imaging/         # Organized by assay type
+│   ├── spatial/
+│   ├── single_cell/
+│   └── external/        # Downloaded/public datasets
+├── metadata/
+│   └── samples.csv      # Single source of truth
+├── scripts/
+│   ├── 00_setup.R       # Numbered scripts
+│   └── sandbox/         # Exploration scripts
+├── shellscripts/        # HPC job scripts
+├── output/              # Reproducible intermediates
+├── figs/                # Exploratory figures
+├── reports/             # Markdown + PDF reports
+└── docs/
+    └── manuscript/
+        └── figures/     # Final paper figures
 ```
 
 ### Script Naming
 - `scripts/00_setup.R` - Always first
 - `scripts/01_load_data.R`, `02_preprocessing.R`, etc.
-- `sandbox/explore_[topic].R` - Exploration scripts
+- `scripts/sandbox/explore_[topic].R` - Exploration scripts
 
 ### Log Entry Types
 - **Script**: Completed numbered script
