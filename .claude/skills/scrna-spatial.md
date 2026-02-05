@@ -13,8 +13,7 @@ Use this skill when:
 
 ## Reference
 
-Full tutorial: `tutorials/scrna_spatial_workflows.md`
-Scripts: `tutorials/scripts/`
+Full tutorials and runnable scripts: https://github.com/cook-lab/workflows
 
 ---
 

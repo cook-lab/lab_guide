@@ -57,10 +57,6 @@ Every computational analysis should include:
 - Numbered scripts (`00_`, `01_`, etc.) for reproducibility
 - Phase reports with embedded statistics and figures
 
-### Tutorials
-- [scRNA-seq & Spatial Workflows](tutorials/scrna_spatial_workflows.md) - Complete processing pipelines
-- [Tutorial Scripts](tutorials/scripts/) - Runnable R and Python code
-
 ### Templates & Resources
 - [Project Spec Template](templates/project_spec.md) - For defining new research projects
 - [Report Template](templates/reports/00_report_template.md) - Phase report structure
@@ -71,6 +67,12 @@ Every computational analysis should include:
 
 ### Communication
 - *[Add preferred communication channels and meeting schedules]*
+
+## Related Repositories
+
+- [workflows](https://github.com/cook-lab/workflows) - scRNA-seq and spatial transcriptomics processing tutorials
+- [scrna-integration-pipeline](https://github.com/cook-lab/scrna-integration-pipeline) - Multi-sample integration pipeline for HPC
+- [tumour_segmentation](https://github.com/cook-lab/tumour_segmentation) - Tumour region segmentation for spatial data
 
 ## Links
 
