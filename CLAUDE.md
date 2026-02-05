@@ -57,6 +57,10 @@ Every computational analysis should include:
 - Numbered scripts (`00_`, `01_`, etc.) for reproducibility
 - Phase reports with embedded statistics and figures
 
+### Tutorials
+- [scRNA-seq & Spatial Workflows](tutorials/scrna_spatial_workflows.md) - Complete processing pipelines
+- [Tutorial Scripts](tutorials/scripts/) - Runnable R and Python code
+
 ### Templates & Resources
 - [Project Spec Template](templates/project_spec.md) - For defining new research projects
 - [Report Template](templates/reports/00_report_template.md) - Phase report structure
