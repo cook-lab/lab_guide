@@ -10,6 +10,7 @@ lab_guide/
 │   ├── analysis_standards.md      # Project structure, logging, reports
 │   └── visualization_style_guide.md  # Palettes, themes, domain-specific plots
 ├── templates/
+│   ├── CLAUDE.md                  # Template for new projects (required!)
 │   ├── project_spec.md            # Research project template
 │   └── reports/                   # Quarto config, Makefile for PDF reports
 └── .claude/skills/                # Claude Code skills
@@ -44,17 +45,17 @@ ls ~/.claude/skills/
 
 ## Using in Your Projects
 
-### Reference standards in your CLAUDE.md
+### 1. Add a CLAUDE.md file
 
-```markdown
-## Lab Standards
+Every project needs a `CLAUDE.md` file for Claude Code to recognize and use the skills. Copy the template:
 
-Follow Cook Lab standards from ~/.cook-lab-guide/:
-- Analysis: guides/analysis_standards.md
-- Visualization: guides/visualization_style_guide.md
+```bash
+cp ~/.cook-lab-guide/templates/CLAUDE.md your_project/CLAUDE.md
 ```
 
-### Copy templates
+Then customize it with your project name and data locations. The template references the global skills and lab standards—without this file, Claude Code won't know to use them.
+
+### 2. Copy other templates as needed
 
 ```bash
 # Report setup
