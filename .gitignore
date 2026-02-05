@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Rendered outputs (keep source, ignore generated)
+*.pdf
+!templates/reports/*.pdf

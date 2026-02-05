@@ -1,0 +1,27 @@
+# Quarto/Pandoc styling for Cook Lab analysis reports
+# Usage: quarto render report.md --to pdf --metadata-file=report_style.yaml
+
+format:
+  pdf:
+    documentclass: article
+    papersize: letter
+    geometry:
+      - margin=1in
+    fontsize: 11pt
+    mainfont: "Inter"
+    sansfont: "Inter"
+    monofont: "JetBrains Mono"
+    colorlinks: true
+    linkcolor: "blue"
+    urlcolor: "blue"
+    toc: false
+    number-sections: false
+    fig-pos: "H"
+    fig-align: center
+    code-block-bg: "#f5f5f5"
+    code-block-border-left: "#e0e0e0"
+    highlight-style: github
+
+# Alternative fonts if Inter not available:
+# mainfont: "Helvetica Neue" or "Arial" or "Source Sans Pro"
+# monofont: "Fira Code" or "Monaco" or "Consolas"

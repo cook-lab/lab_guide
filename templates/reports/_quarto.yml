@@ -1,0 +1,47 @@
+# Quarto project configuration for Cook Lab analysis reports
+# Copy this file to your project's reports/ directory
+
+project:
+  type: default
+  output-dir: .
+
+format:
+  pdf:
+    documentclass: article
+    papersize: letter
+    geometry:
+      - margin=1in
+    fontsize: 11pt
+    # System fonts - no installation required
+    # macOS: Helvetica Neue, Windows: Arial, Linux: falls back gracefully
+    mainfont: "Helvetica Neue"
+    sansfont: "Helvetica Neue"
+    monofont: "Menlo"
+    colorlinks: true
+    linkcolor: "NavyBlue"
+    urlcolor: "NavyBlue"
+    citecolor: "NavyBlue"
+    toc: false
+    number-sections: false
+    fig-pos: "H"
+    fig-align: center
+    fig-width: 6
+    fig-height: 4
+    code-block-bg: "#f8f8f8"
+    code-block-border-left: "#e0e0e0"
+    highlight-style: github
+    keep-tex: false
+    pdf-engine: xelatex
+    include-in-header:
+      text: |
+        \usepackage{float}
+        \floatplacement{figure}{H}
+        \usepackage{booktabs}
+        \usepackage{longtable}
+        \usepackage{caption}
+        \captionsetup{font=small,labelfont=bf}
+
+# Platform-specific font notes:
+# - macOS: Helvetica Neue + Menlo (pre-installed)
+# - Windows: Change to Arial + Consolas
+# - Linux: Change to DejaVu Sans + DejaVu Sans Mono
